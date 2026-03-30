@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇲🇦 DarijaFlow - Mois 1 : Les Fondations</title>
+    <style>
+        :root {
+            --primary: #009688;
+            --primary-dark: #00796b;
+            --secondary: #ff9800;
+            --accent: #e91e63;
+            --vocab: #4caf50;
+            --conjug: #2196f3;
+            --grammar: #9c27b0;
+            --dialog: #ff5722;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --arabic-font: 'Traditional Arabic', 'Arial', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            margin: 1rem auto;
+            max-width: 1000px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .stat-box {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Main Navigation - 4 Sections */
+        nav.main-nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem;
+            margin: 1rem auto;
+            max-width: 1000px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        nav.main-nav button {
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        nav.main-nav button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        nav.main-nav button.active {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-vocab { background: var(--vocab); }
+        .btn-vocab.active { background: var(--vocab); }
+        .btn-vocab:hover { background: #388e3c; }
+
+        .btn-conjug { background: var(--conjug); }
+        .btn-conjug.active { background: var(--conjug); }
+        .btn-conjug:hover { background: #1976d2; }
+
+        .btn-grammar { background: var(--grammar); }
+        .btn-grammar.active { background: var(--grammar); }
+        .btn-grammar:hover { background: #7b1fa2; }
+
+        .btn-dialog { background: var(--dialog); }
+        .btn-dialog.active { background: var(--dialog); }
+        .btn-dialog:hover { background: #e64a19; }
+
+        .nav-icon { font-size: 1.5rem; }
+
+        /* Sub Navigation */
+        .sub-nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem;
+            margin: 1rem auto;
+            max-width: 1000px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .sub-nav.active {
+            display: flex;
+        }
+
+        .sub-nav button {
+            background: none;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.6rem 1.2rem;
+            margin: 0.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .sub-nav button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sub-nav button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Section Containers */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Vocabulary Section */
+        .vocab-category {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .vocab-category-header {
+            background: linear-gradient(135deg, var(--vocab), #388e3c);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vocab-category-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .vocab-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .vocab-table th,
+        .vocab-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .vocab-table th {
+            background: var(--vocab);
+            color: white;
+            font-weight: 600;
+        }
+
+        .vocab-table tr:hover {
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .vocab-arabic {
+            font-family: var(--arabic-font);
+            font-size: 1.4rem;
+            direction: rtl;
+            color: var(--text);
+        }
+
+        .priority-stars {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Conjugaison Section */
+        .conjug-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--conjug);
+        }
+
+        .conjug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .conjug-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--conjug);
+        }
+
+        .conjug-meaning {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .conjug-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .conjug-table th,
+        .conjug-table td {
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .conjug-table th {
+            background: var(--conjug);
+            color: white;
+        }
+
+        .conjug-table tr:nth-child(even) {
+            background: #f5f7fa;
+        }
+
+        .conjug-arabic {
+            font-family: var(--arabic-font);
+            font-size: 1.3rem;
+            direction: rtl;
+        }
+
+        .tense-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tense-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--conjug);
+            background: white;
+            color: var(--conjug);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tense-btn.active {
+            background: var(--conjug);
+            color: white;
+        }
+
+        /* Grammar Section */
+        .grammar-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--grammar);
+        }
+
+        .grammar-header {
+            background: linear-gradient(135deg, var(--grammar), #7b1fa2);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .grammar-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .grammar-content {
+            line-height: 1.8;
+        }
+
+        .grammar-rule {
+            background: #f3e5f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--grammar);
+        }
+
+        .grammar-example {
+            background: #fff3e0;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .grammar-example-arabic {
+            font-family: var(--arabic-font);
+            font-size: 1.3rem;
+            direction: rtl;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Dialogue Section */
+        .dialogue-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .dialogue-card.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dialogue-header {
+            background: linear-gradient(135deg, var(--dialog), #e64a19);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .dialogue-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .dialogue-situation {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .dialogue-lines {
+            margin-bottom: 1.5rem;
+        }
+
+        .dialogue-line {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: var(--bg);
+            border-radius: 10px;
+            border-left: 4px solid var(--dialog);
+            transition: transform 0.2s;
+        }
+
+        .dialogue-line:hover {
+            transform: translateX(5px);
+        }
+
+        .dialogue-line.person-a {
+            border-left-color: var(--dialog);
+        }
+
+        .dialogue-line.person-b {
+            border-left-color: var(--secondary);
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: var(--dialog);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .person-b .speaker {
+            color: var(--secondary);
+        }
+
+        .line-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arabic-text {
+            font-family: var(--arabic-font);
+            font-size: 1.6rem;
+            direction: rtl;
+            color: var(--text);
+            line-height: 2;
+        }
+
+        .phonetic-text {
+            font-size: 1rem;
+            color: var(--secondary);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .french-text {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.4);
+        }
+
+        .btn-quiz {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-quiz:hover {
+            background: #c2185b;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Quiz Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--accent), #c2185b);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-question-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(0, 150, 136, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: rgba(0, 150, 136, 0.2);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: rgba(39, 174, 96, 0.2);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--error);
+            background: rgba(231, 76, 60, 0.2);
+        }
+
+        .quiz-feedback {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: var(--error);
+        }
+
+        .quiz-score {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .quiz-score-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Search Box */
+        .search-box {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Completion Badge */
+        .completion-badge {
+            display: none;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .completion-badge.active {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-text {
+            font-weight: bold;
+            color: #856404;
+        }
+
+        /* Reset Button */
+        .reset-section {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            nav.main-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dialogue-line {
+                grid-template-columns: 40px 1fr;
+                gap: 0.5rem;
+                padding: 0.8rem;
+            }
+
+            .arabic-text {
+                font-size: 1.3rem;
+            }
+
+            .vocab-table, .conjug-table {
+                font-size: 0.8rem;
+            }
+
+            .vocab-arabic, .conjug-arabic {
+                font-size: 1.1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🇲🇦 DarijaFlow</h1>
+        <p>Mois 1 : Les Fondations (300 mots)</p>
+    </header>
+
+    <!-- Progress Section -->
+    <div class="progress-section">
+        <div class="progress-info">
+            <span>Progression Mois 1</span>
+            <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="vocabLearned">0</div>
+                <div class="stat-label">Mots</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="verbsLearned">0</div>
+                <div class="stat-label">Verbes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="grammarLearned">0</div>
+                <div class="stat-label">Règles</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="dialoguesCompleted">0</div>
+                <div class="stat-label">Dialogues</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation - 4 Sections -->
+    <nav class="main-nav">
+        <button class="btn-vocab active" onclick="showSection('vocabulaire')">
+            <span class="nav-icon">📚</span>
+            <span>Vocabulaire</span>
+        </button>
+        <button class="btn-conjug" onclick="showSection('conjugaison')">
+            <span class="nav-icon">✏️</span>
+            <span>Conjugaison</span>
+        </button>
+        <button class="btn-grammar" onclick="showSection('grammaire')">
+            <span class="nav-icon">📖</span>
+            <span>Grammaire</span>
+        </button>
+        <button class="btn-dialog" onclick="showSection('dialogues')">
+            <span class="nav-icon">💬</span>
+            <span>Dialogues</span>
+        </button>
+    </nav>
+
+    <!-- Sub Navigation for Vocab Categories -->
+    <div class="sub-nav active" id="vocabSubNav">
+        <button class="active" onclick="filterVocab('all')">Tous</button>
+        <button onclick="filterVocab('salutations')">Salutations</button>
+        <button onclick="filterVocab('chiffres')">Chiffres</button>
+        <button onclick="filterVocab('famille')">Famille</button>
+        <button onclick="filterVocab('lieux')">Lieux</button>
+        <button onclick="filterVocab('nourriture')">Nourriture</button>
+        <button onclick="filterVocab('verbes')">Verbes</button>
+        <button onclick="filterVocab('questions')">Questions</button>
+    </div>
+
+    <!-- Sub Navigation for Conjugaison Tenses -->
+    <div class="sub-nav" id="conjugSubNav">
+        <button class="active" onclick="filterConjug('present')">Présent</button>
+        <button onclick="filterConjug('passe')">Passé</button>
+        <button onclick="filterConjug('futur')">Futur</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- ============================================ -->
+        <!-- SECTION VOCABULAIRE -->
+        <!-- ============================================ -->
+        <div class="section active" id="section-vocabulaire">
+            <div class="search-box">
+                <input type="text" id="vocabSearch" placeholder="🔍 Rechercher un mot..." onkeyup="searchVocab()">
+            </div>
+            <div id="vocabContent">
+                <!-- Vocabulary loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION CONJUGAISON -->
+        <!-- ============================================ -->
+        <div class="section" id="section-conjugaison">
+            <div id="conjugContent">
+                <!-- Conjugaison loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION GRAMMAIRE -->
+        <!-- ============================================ -->
+        <div class="section" id="section-grammaire">
+            <div id="grammarContent">
+                <!-- Grammar loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION DIALOGUES -->
+        <!-- ============================================ -->
+        <div class="section" id="section-dialogues">
+            <div class="controls" style="margin-bottom: 1rem;">
+                <button class="btn btn-primary" onclick="prevDialogue()">⬅️ Dialogue précédent</button>
+                <span id="dialogueCounter">1 / 12</span>
+                <button class="btn btn-primary" onclick="nextDialogue()">Dialogue suivant ➡️</button>
+            </div>
+            <div id="dialogueContent">
+                <!-- Dialogues loaded dynamically -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Quiz Button -->
+    <div style="text-align: center; margin: 2rem 0;">
+        <button class="btn btn-quiz" onclick="openQuiz()" style="font-size: 1.2rem; padding: 1rem 3rem;">
+            📝 Quiz Final du Mois 1
+        </button>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Quiz du Mois 1</h2>
+                <button class="modal-close" onclick="closeQuiz()">×</button>
+            </div>
+            <div class="modal-body" id="quizBody">
+                <!-- Quiz content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Section -->
+    <div class="reset-section">
+        <button class="btn btn-reset" onclick="resetProgress()">🔄 Réinitialiser la progression</button>
+    </div>
+
+    <script>
+        // ============================================
+        // DONNÉES - VOCABULAIRE (300 MOTS)
+        // ============================================
+        const vocabData = [
+            { category: 'salutations', fr: 'Bonjour', ar: 'السَّلَامْ عَلَيْكُمْ', ph: 'Salam 3likoum', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Réponse', ar: 'وَعَلَيْكُمُ السَّلَامْ', ph: 'Wa 3likoum salam', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Bonjour (matin)', ar: 'صَبَاحْ الْخَيْرْ', ph: 'Sbah lkhir', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Réponse matin', ar: 'صَبَاحْ النُّورْ', ph: 'Sbah nnoor', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Bonsoir', ar: 'مَسَاءْ الْخَيْرْ', ph: 'Msa lkhir', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Comment ça va ?', ar: 'كِيفْ دَايِرْ؟', ph: 'Kif dayr?', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Ça va', ar: 'لَابَاسْ', ph: 'Labas', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Dieu merci', ar: 'الْحَمْدُ لِلَّهْ', ph: 'Lhamdoulillah', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Et toi ?', ar: 'وَنْتَا؟', ph: 'Wenta?', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Je vais bien', ar: 'أَنَا بِخَيْرْ', ph: 'Ana bikhir', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Merci', ar: 'شُكْرَانْ', ph: 'Chokran', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Merci beaucoup', ar: 'شُكْرَانْ بْزَافْ', ph: 'Chokran bzaf', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'S\'il te plaît', ar: 'عْفَاكْ', ph: '3afak', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'De rien', ar: 'الْعَفْوْ', ph: 'L3afw', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Au revoir', ar: 'مْعَا السَّلَامَةْ', ph: 'Ma3a ssalama', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'À bientôt', ar: 'بِسْلَامَةْ', ph: 'Bisslama', stars: '⭐⭐⭐' },
+            { category: 'salutations', fr: 'Bienvenue', ar: 'أَهْلَاً وَسَهْلَاً', ph: 'Ahlan w sahlan', stars: '⭐⭐' },
+            { category: 'salutations', fr: 'Enchanté', ar: 'فُرْصَةْ سَعِيدَةْ', ph: 'Fursa sa3ida', stars: '⭐⭐' },
+            { category: 'salutations', fr: 'Mon frère', ar: 'يَاخِي', ph: 'Ya khi', stars: '⭐⭐' },
+            { category: 'salutations', fr: 'Ma soeur', ar: 'يَاخْتِي', ph: 'Ya khti', stars: '⭐⭐' },
+            
+            { category: 'chiffres', fr: 'Zéro', ar: 'صِفْرْ', ph: 'Sifr', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Un', ar: 'وَاحِدْ', ph: 'Wa7ed', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Deux', ar: 'جُوجْ', ph: 'Jouj', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Trois', ar: 'تْلَاتَةْ', ph: 'Tlata', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Quatre', ar: 'رْبْعَةْ', ph: 'Rb3a', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Cinq', ar: 'خَمْسَةْ', ph: 'Khamsa', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Six', ar: 'سْتَّةْ', ph: 'Setta', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Sept', ar: 'سْبْعَةْ', ph: 'Sb3a', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Huit', ar: 'تْمْنِيَةْ', ph: 'Tmanya', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Neuf', ar: 'تِسْعَةْ', ph: 'Tis3a', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Dix', ar: 'عْشْرَةْ', ph: '3achra', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Onze', ar: 'حْدَاشْ', ph: '7dach', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Douze', ar: 'تْنَاشْ', ph: 'Tnach', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Vingt', ar: 'عْشْرِينْ', ph: '3echrin', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Trente', ar: 'تْلَاتِينْ', ph: 'Tlatin', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Quarante', ar: 'رْبْعِينْ', ph: 'Rb3in', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Cinquante', ar: 'خَمْسِينْ', ph: 'Khamsin', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Soixante', ar: 'سْتِّينْ', ph: 'Settin', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Cent', ar: 'مِّيَةْ', ph: 'Miya', stars: '⭐⭐⭐' },
+            { category: 'chiffres', fr: 'Mille', ar: 'أَلْفْ', ph: 'Alf', stars: '⭐⭐' },
+
+            { category: 'famille', fr: 'Père', ar: 'وَالِيدْ', ph: 'Walid', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Mère', ar: 'وَالِيدَةْ', ph: 'Walida', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Frère', ar: 'خُويا', ph: 'Khoya', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Soeur', ar: 'خْتِي', ph: 'Khti', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Grand-père', ar: 'جِدِّي', ph: 'Jiddi', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Grand-mère', ar: 'جِدَّتِي', ph: 'Jiddati', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Oncle', ar: 'عَمِّي', ph: '3ammi', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Tante', ar: 'عَمَّتِي', ph: '3ammati', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Fils', ar: 'وْلْدِي', ph: 'Weldi', stars: '⭐⭐⭐' },
+            { category: 'famille', fr: 'Fille', ar: 'بْنْتِي', ph: 'Benti', stars: '⭐⭐⭐' },
+
+            { category: 'lieux', fr: 'Maison', ar: 'دَارْ', ph: 'Dar', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Rue', ar: 'دْرَبْ', ph: 'Derb', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Marché', ar: 'سُوقْ', ph: 'Souk', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Café', ar: 'قَهْوَةْ', ph: 'Qahwa', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Restaurant', ar: 'مَطْعَمْ', ph: 'Mat3am', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Hôtel', ar: 'فُنْدُقْ', ph: 'Funduq', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Hôpital', ar: 'سْبِيطَارْ', ph: 'Sbitar', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Pharmacie', ar: 'فَارْمَاسِيَا', ph: 'Farmassiya', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Banque', ar: 'بَنْكْ', ph: 'Bank', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Taxi', ar: 'طَاكْسِي', ph: 'Taksi', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Ici', ar: 'هُنَا', ph: 'Hna', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Là-bas', ar: 'لِهْذَاكْ', ph: 'Lihdak', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Devant', ar: 'قُدَّامْ', ph: '9odam', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Derrière', ar: 'وْرَا', ph: 'Wara', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'À gauche', ar: 'عَلَى الْيَسَارْ', ph: '3la lyassar', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'À droite', ar: 'عَلَى الْيَمِينْ', ph: '3la lyamin', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Tout droit', ar: 'دْرَبْ سْعِيدْ', ph: 'Dreb s3id', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Près', ar: 'قْرِيبْ', ph: '9rib', stars: '⭐⭐⭐' },
+            { category: 'lieux', fr: 'Loin', ar: 'بْعِيدْ', ph: 'B3id', stars: '⭐⭐⭐' },
+
+            { category: 'nourriture', fr: 'Eau', ar: 'لْمَا', ph: 'Lma', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Thé', ar: 'أَتَايْ', ph: 'Atay', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Café', ar: 'قَهْوَةْ', ph: 'Qahwa', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Pain', ar: 'خُبْزْ', ph: 'Khobz', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Viande', ar: 'لْحَمْ', ph: 'L7am', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Poulet', ar: 'دْجَاجْ', ph: 'Djjaj', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Poisson', ar: 'حُوتْ', ph: '7out', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Pommes', ar: 'تَّفَّاحْ', ph: 'Tffa7', stars: '⭐⭐' },
+            { category: 'nourriture', fr: 'Fruits', ar: 'فَوَاكِهْ', ph: 'Fawakeh', stars: '⭐⭐' },
+            { category: 'nourriture', fr: 'Légumes', ar: 'خُضْرَةْ', ph: 'Khodra', stars: '⭐⭐' },
+            { category: 'nourriture', fr: 'Riz', ar: 'رُّوزْ', ph: 'Ruzz', stars: '⭐⭐' },
+            { category: 'nourriture', fr: 'Fromage', ar: 'جْبَنْ', ph: 'Jben', stars: '⭐⭐' },
+            { category: 'nourriture', fr: 'Œuf', ar: 'بِيضْ', ph: 'Bid', stars: '⭐⭐' },
+            { category: 'nourriture', fr: 'Sucre', ar: 'سُكَّرْ', ph: 'Sokkar', stars: '⭐⭐⭐' },
+            { category: 'nourriture', fr: 'Sel', ar: 'مْلَحْ', ph: 'Mel7', stars: '⭐⭐' },
+
+            { category: 'verbes', fr: 'Manger', ar: 'كَلْ', ph: 'Kel', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Boire', ar: 'شْرَبْ', ph: 'Chreb', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Dormir', ar: 'نْعَسْ', ph: 'N3as', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Aller', ar: 'مْشِي', ph: 'Mchi', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Venir', ar: 'جِي', ph: 'Jii', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Parler', ar: 'هْضَرْ', ph: 'Hder', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Écouter', ar: 'سْمَعْ', ph: 'Sm3', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Voir', ar: 'شُوفْ', ph: 'Chouf', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Savoir', ar: 'عْرَفْ', ph: '3ref', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Comprendre', ar: 'فْهَمْ', ph: 'Fhem', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Vouloir', ar: 'بْغِي', ph: 'Bghi', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Pouvoir', ar: 'قْدَرْ', ph: '9der', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Devoir', ar: 'خَاصْ', ph: 'Khass', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Faire', ar: 'دِيرْ', ph: 'Dir', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Prendre', ar: 'خُودْ', ph: 'Khod', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Donner', ar: 'عْطِي', ph: '3ti', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Dire', ar: 'قُولْ', ph: '9ol', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Acheter', ar: 'شْرِي', ph: 'Chri', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Payer', ar: 'خَلِّصْ', ph: 'Khllas', stars: '⭐⭐⭐' },
+            { category: 'verbes', fr: 'Attendre', ar: 'سْتَنَّى', ph: 'Stenna', stars: '⭐⭐⭐' },
+
+            { category: 'questions', fr: 'Quoi ?', ar: 'شْنُو؟', ph: 'Chno?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Qui ?', ar: 'شْكُونْ؟', ph: 'Chkoun?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Où ?', ar: 'فِينْ؟', ph: 'Fin?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Quand ?', ar: 'فُوَاشْ؟', ph: 'Fu7ach?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Pourquoi ?', ar: 'عْلَاشْ؟', ph: '3lach?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Comment ?', ar: 'كِيفَاشْ؟', ph: 'Kifach?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Combien ?', ar: 'بِشْحَالْ؟', ph: 'Bch7al?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Lequel ?', ar: 'أَشْمَنْ؟', ph: 'Achmen?', stars: '⭐⭐' },
+            { category: 'questions', fr: 'Où est... ?', ar: 'فِينْ كَايْنْ...؟', ph: 'Fin kayen...?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'C\'est qui ?', ar: 'شْكُونْ هُوَا؟', ph: 'Chkoun houwa?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'C\'est quoi ?', ar: 'شْنُو هُوَا؟', ph: 'Chno houwa?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Tu as... ?', ar: 'عِنْدَكْ...؟', ph: '3endek...?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Il y a... ?', ar: 'كَايِنْ...؟', ph: 'Kayen...?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Tu veux... ?', ar: 'بْغِيتِي...؟', ph: 'Bghiti...?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Tu peux... ?', ar: 'قْدَرْتِي...؟', ph: '9derti...?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Tu sais... ?', ar: 'عْرَفْتِي...؟', ph: '3rafti...?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'C\'est vrai ?', ar: 'وَاشْ صَحِيحْ؟', ph: 'Wach s7i7?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'D\'accord ?', ar: 'وَاشْ مَفْهُومْ؟', ph: 'Wach mafhoum?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Tu comprends ?', ar: 'وَاشْ فَهْمْتِي؟', ph: 'Wach fhemti?', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Un peu', ar: 'شْوِيَّةْ', ph: 'Chwiya', stars: '⭐⭐⭐' },
+            { category: 'questions', fr: 'Beaucoup', ar: 'بْزَافْ', ph: 'Bzaf', stars: '⭐⭐⭐' },
+
+            { category: 'pronoms', fr: 'Je', ar: 'أَنَا', ph: 'Ana', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Tu (homme)', ar: 'نْتَا', ph: 'Nta', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Tu (femme)', ar: 'نْتِي', ph: 'Nti', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Il', ar: 'هُوَا', ph: 'Houwa', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Elle', ar: 'هِيَا', ph: 'Hiya', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Nous', ar: 'حْنَا', ph: 'Hna', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Vous', ar: 'نْتُومَا', ph: 'Ntuma', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'Ils/Elles', ar: 'هُمَا', ph: 'Huma', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À moi', ar: 'دْيَالِي', ph: 'Dyali', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À toi', ar: 'دْيَالَكْ', ph: 'Dyalek', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À lui', ar: 'دْيَالُو', ph: 'Dyalo', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À elle', ar: 'دْيَالَهَا', ph: 'Dyalha', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À nous', ar: 'دْيَالْنَا', ph: 'Dyalna', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À vous', ar: 'دْيَالْكُومْ', ph: 'Dyalkoum', stars: '⭐⭐⭐' },
+            { category: 'pronoms', fr: 'À eux', ar: 'دْيَالْهُومْ', ph: 'Dyalhoum', stars: '⭐⭐⭐' },
+
+            { category: 'expressions', fr: 'Je ne sais pas', ar: 'مَا عْرَفْتُشْ', ph: 'Ma 3rftusch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Je ne comprends pas', ar: 'مَا فَهْمْتُشْ', ph: 'Ma fhemtusch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Je ne parle pas', ar: 'مَا كَنْهْدَرْشْ', ph: 'Ma kan-hderch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Il n\'y a pas', ar: 'مَا كَايْنْشْ', ph: 'Ma kaynch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Ce n\'est pas', ar: 'مَا هُوشْ', ph: 'Ma houch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Je ne veux pas', ar: 'مَا بْغِيتْشْ', ph: 'Ma bghitch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Je ne peux pas', ar: 'مَا قْدَرْتُشْ', ph: 'Ma 9drtusch', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Je n\'ai pas', ar: 'مَا عِنْدِيشْ', ph: 'Ma 3ndich', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Rien', ar: 'وَالُو', ph: 'Walou', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Personne', ar: 'حَدّ', ph: '7edd', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Jamais', ar: 'قَاطْ', ph: '9att', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Seulement', ar: 'غِيرْ', ph: 'Ghir', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Mais', ar: 'وَلَاكِينْ', ph: 'Walakin', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Ou', ar: 'وَلَّا', ph: 'Wlla', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Et', ar: 'وْ', ph: 'W', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Parce que', ar: 'حِيتْ', ph: '7itt', stars: '⭐⭐' },
+            { category: 'expressions', fr: 'Si', ar: 'إِيلاَ', ph: 'Ila', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Maintenant', ar: 'دَابَا', ph: 'Daba', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'Plus tard', ar: 'بْعَدْ', ph: 'B3d', stars: '⭐⭐⭐' },
+            { category: 'expressions', fr: 'D\'accord', ar: 'مَافْهُومْ', ph: 'Mafhoum', stars: '⭐⭐⭐' },
+
+            { category: 'temps', fr: 'Aujourd\'hui', ar: 'لْيُومْ', ph: 'Lyoum', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Hier', ar: 'لْبَارَحْ', ph: 'Lbare7', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Demain', ar: 'غْدَا', ph: 'Gheda', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Matin', ar: 'صْبَاحْ', ph: 'Sbah', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Après-midi', ar: 'لْعَشِيَّةْ', ph: 'L3achiya', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Soir', ar: 'لْعِيشَةْ', ph: 'L3icha', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Nuit', ar: 'لِيلْ', ph: 'Lil', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Heure', ar: 'سَاعَةْ', ph: 'S3a', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Minute', ar: 'دْقِيقَةْ', ph: 'D9i9a', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Jour', ar: 'نْهَارْ', ph: 'Nhar', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Semaine', ar: 'سْمَانَةْ', ph: 'Smana', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Mois', ar: 'شْهَرْ', ph: 'Chhar', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Année', ar: 'عَامْ', ph: '3am', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Lundi', ar: 'لِثْنِينْ', ph: 'Itnin', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Vendredi', ar: 'لْجُمْعَةْ', ph: 'Jm3a', stars: '⭐⭐⭐' },
+            { category: 'temps', fr: 'Dimanche', ar: 'لْحَدْ', ph: 'L7ed', stars: '⭐⭐⭐' },
+
+            { category: 'argent', fr: 'Dirham', ar: 'دِرْهَمْ', ph: 'Dirham', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Centimes', ar: 'سَنْتِيمْ', ph: 'Santim', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Prix', ar: 'ثْمَنْ', ph: 'Tamen', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Cher', ar: 'غَالِي', ph: 'Ghali', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Pas cher', ar: 'رْخِيصْ', ph: 'Rkhis', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Gratuit', ar: 'مَجَّانْ', ph: 'Majjan', stars: '⭐⭐' },
+            { category: 'argent', fr: 'Argent', ar: 'فْلُوسْ', ph: 'Flouss', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Addition', ar: 'لْحِسَابْ', ph: 'L-7sab', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Monnaie', ar: 'بَاقِي', ph: 'Baqi', stars: '⭐⭐⭐' },
+            { category: 'argent', fr: 'Garde la monnaie', ar: 'خُودْ بَاقِي لِيكْ', ph: 'Khod baqi lik', stars: '⭐⭐⭐' },
+
+            { category: 'divers', fr: 'Oui', ar: 'آهْ', ph: 'Ah', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Non', ar: 'لَاهْ', ph: 'Lah', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Peut-être', ar: 'يُمْكِنْ', ph: 'Yumkin', stars: '⭐⭐' },
+            { category: 'divers', fr: 'Bien', ar: 'مْزِيَانْ', ph: 'Mzyan', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Mal', ar: 'مَاشِي مْزِيَانْ', ph: 'Machi mzyan', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Beau/Belle', ar: 'زْوِينْ', ph: 'Zwin', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Grand', ar: 'كْبِيرْ', ph: 'Kbir', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Petit', ar: 'صْغِيرْ', ph: 'Sghir', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Bon', ar: 'زْوِينْ', ph: 'Zwin', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Mauvais', ar: 'مَاشِي زْوِينْ', ph: 'Machi zwin', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Vite', ar: 'سْرِيعْ', ph: 'Sri3', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Lentement', ar: 'بْشْوِيَّةْ', ph: 'B-chwiya', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Facile', ar: 'سَاهْلْ', ph: 'Sahl', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Difficile', ar: 'صْعِيبْ', ph: 'S3ib', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Nouveau', ar: 'جْدِيدْ', ph: 'Jdid', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Vieux', ar: 'قْدِيمْ', ph: '9dim', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Premier', ar: 'لُّولْ', ph: 'Loul', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Dernier', ar: 'لَّاخِرْ', ph: 'Lakher', stars: '⭐⭐⭐' },
+            { category: 'divers', fr: 'Même', ar: 'نَفْسْ', ph: 'Nefs', stars: '⭐⭐' },
+            { category: 'divers', fr: 'Autre', ar: 'أُخْرَى', ph: 'Okhra', stars: '⭐⭐⭐' }
+        ];
+
+        // ============================================
+        // DONNÉES - CONJUGAISON (20 VERBES ESSENTIELS)
+        // ============================================
+        const conjugData = [
+            {
+                verb: 'كَلْ',
+                infinitive: 'Kel',
+                meaning: 'Manger',
+                present: [
+                    { person: 'Je', arabic: 'كَنْكُلْ', phonetic: 'Kan-kel' },
+                    { person: 'Tu (m)', arabic: 'كَنْكُلْ', phonetic: 'Ka-tkel' },
+                    { person: 'Tu (f)', arabic: 'كَنْكُلِي', phonetic: 'Ka-tkel-i' },
+                    { person: 'Il', arabic: 'كَايْكُلْ', phonetic: 'Ka-ykel' },
+                    { person: 'Elle', arabic: 'كَايْكُلْ', phonetic: 'Ka-tkel' },
+                    { person: 'Nous', arabic: 'كَنْكُلُو', phonetic: 'Kan-kel-ou' },
+                    { person: 'Vous', arabic: 'كَنْكُلُو', phonetic: 'Ka-tkel-ou' },
+                    { person: 'Ils', arabic: 'كَايْكُلُو', phonetic: 'Ka-ykel-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'كَلْتْ', phonetic: 'Kelt' },
+                    { person: 'Tu (m)', arabic: 'كَلْتِي', phonetic: 'Kelti' },
+                    { person: 'Tu (f)', arabic: 'كَلْتِي', phonetic: 'Kelti' },
+                    { person: 'Il', arabic: 'كَلْ', phonetic: 'Kel' },
+                    { person: 'Elle', arabic: 'كَلَتْ', phonetic: 'Kelat' },
+                    { person: 'Nous', arabic: 'كَلْنَا', phonetic: 'Kelna' },
+                    { person: 'Vous', arabic: 'كَلْتُومْ', phonetic: 'Keltoum' },
+                    { person: 'Ils', arabic: 'كَلُو', phonetic: 'Kelou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْكُلْ', phonetic: 'Ghadi nkel' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْكُلْ', phonetic: 'Ghadi tkel' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْكُلِي', phonetic: 'Ghadi tkel-i' },
+                    { person: 'Il', arabic: 'غَادِي يْكُلْ', phonetic: 'Ghadi ykel' },
+                    { person: 'Elle', arabic: 'غَادِي تْكُلْ', phonetic: 'Ghadi tkel' },
+                    { person: 'Nous', arabic: 'غَادِي نْكُلُو', phonetic: 'Ghadi nkel-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْكُلُو', phonetic: 'Ghadi tkel-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْكُلُو', phonetic: 'Ghadi ykel-ou' }
+                ]
+            },
+            {
+                verb: 'شْرَبْ',
+                infinitive: 'Chreb',
+                meaning: 'Boire',
+                present: [
+                    { person: 'Je', arabic: 'كَنْشْرَبْ', phonetic: 'Kan-chreb' },
+                    { person: 'Tu (m)', arabic: 'كَنْشْرَبْ', phonetic: 'Ka-tchreb' },
+                    { person: 'Tu (f)', arabic: 'كَنْشْرْبِي', phonetic: 'Ka-tchreb-i' },
+                    { person: 'Il', arabic: 'كَايْشْرَبْ', phonetic: 'Ka-ychreb' },
+                    { person: 'Elle', arabic: 'كَايْشْرَبْ', phonetic: 'Ka-tchreb' },
+                    { person: 'Nous', arabic: 'كَنْشْرْبُو', phonetic: 'Kan-chreb-ou' },
+                    { person: 'Vous', arabic: 'كَنْشْرْبُو', phonetic: 'Ka-tchreb-ou' },
+                    { person: 'Ils', arabic: 'كَايْشْرْبُو', phonetic: 'Ka-ychreb-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'شْرَبْتْ', phonetic: 'Chrebt' },
+                    { person: 'Tu (m)', arabic: 'شْرَبْتِي', phonetic: 'Chrebti' },
+                    { person: 'Tu (f)', arabic: 'شْرَبْتِي', phonetic: 'Chrebti' },
+                    { person: 'Il', arabic: 'شْرَبْ', phonetic: 'Chreb' },
+                    { person: 'Elle', arabic: 'شْرَبَتْ', phonetic: 'Chrebat' },
+                    { person: 'Nous', arabic: 'شْرَبْنَا', phonetic: 'Chrebna' },
+                    { person: 'Vous', arabic: 'شْرَبْتُومْ', phonetic: 'Chrebtoum' },
+                    { person: 'Ils', arabic: 'شْرَبُو', phonetic: 'Chrebou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْشْرَبْ', phonetic: 'Ghadi nchreb' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْشْرَبْ', phonetic: 'Ghadi tschreb' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْشْرْبِي', phonetic: 'Ghadi tschreb-i' },
+                    { person: 'Il', arabic: 'غَادِي يْشْرَبْ', phonetic: 'Ghadi ychreb' },
+                    { person: 'Elle', arabic: 'غَادِي تْشْرَبْ', phonetic: 'Ghadi tschreb' },
+                    { person: 'Nous', arabic: 'غَادِي نْشْرْبُو', phonetic: 'Ghadi nchreb-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْشْرْبُو', phonetic: 'Ghadi tschreb-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْشْرْبُو', phonetic: 'Ghadi ychreb-ou' }
+                ]
+            },
+            {
+                verb: 'مْشِي',
+                infinitive: 'Mchi',
+                meaning: 'Aller',
+                present: [
+                    { person: 'Je', arabic: 'كَنْمْشِي', phonetic: 'Kan-nmchi' },
+                    { person: 'Tu (m)', arabic: 'كَنْمْشِي', phonetic: 'Ka-tmchi' },
+                    { person: 'Tu (f)', arabic: 'كَنْمْشِي', phonetic: 'Ka-tmchi' },
+                    { person: 'Il', arabic: 'كَايَمْشِي', phonetic: 'Ka-ymchi' },
+                    { person: 'Elle', arabic: 'كَايَمْشِي', phonetic: 'Ka-tmchi' },
+                    { person: 'Nous', arabic: 'كَنْمْشِيُو', phonetic: 'Kan-nmchi-ou' },
+                    { person: 'Vous', arabic: 'كَنْمْشِيُو', phonetic: 'Ka-tmchi-ou' },
+                    { person: 'Ils', arabic: 'كَايَمْشِيُو', phonetic: 'Ka-ymchi-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'مْشِيتْ', phonetic: 'Mchit' },
+                    { person: 'Tu (m)', arabic: 'مْشِيتِي', phonetic: 'Mchiti' },
+                    { person: 'Tu (f)', arabic: 'مْشِيتِي', phonetic: 'Mchiti' },
+                    { person: 'Il', arabic: 'مْشَا', phonetic: 'Mcha' },
+                    { person: 'Elle', arabic: 'مْشَاتْ', phonetic: 'Mchat' },
+                    { person: 'Nous', arabic: 'مْشِينَا', phonetic: 'Mchina' },
+                    { person: 'Vous', arabic: 'مْشِيتُومْ', phonetic: 'Mchitoum' },
+                    { person: 'Ils', arabic: 'مْشَاوْ', phonetic: 'Mchaou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نَمْشِي', phonetic: 'Ghadi nmchi' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تَمْشِي', phonetic: 'Ghadi tmchi' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تَمْشِي', phonetic: 'Ghadi tmchi' },
+                    { person: 'Il', arabic: 'غَادِي يَمْشِي', phonetic: 'Ghadi ymchi' },
+                    { person: 'Elle', arabic: 'غَادِي تَمْشِي', phonetic: 'Ghadi tmchi' },
+                    { person: 'Nous', arabic: 'غَادِي نَمْشِيُو', phonetic: 'Ghadi nmchi-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تَمْشِيُو', phonetic: 'Ghadi tmchi-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يَمْشِيُو', phonetic: 'Ghadi ymchi-ou' }
+                ]
+            },
+            {
+                verb: 'جِي',
+                infinitive: 'Jii',
+                meaning: 'Venir',
+                present: [
+                    { person: 'Je', arabic: 'كَنْجِي', phonetic: 'Kan-nji' },
+                    { person: 'Tu (m)', arabic: 'كَنْجِي', phonetic: 'Ka-tji' },
+                    { person: 'Tu (f)', arabic: 'كَنْجِي', phonetic: 'Ka-tji' },
+                    { person: 'Il', arabic: 'كَايْجِي', phonetic: 'Ka-yji' },
+                    { person: 'Elle', arabic: 'كَايْجِي', phonetic: 'Ka-tji' },
+                    { person: 'Nous', arabic: 'كَنْجِيُو', phonetic: 'Kan-nji-ou' },
+                    { person: 'Vous', arabic: 'كَنْجِيُو', phonetic: 'Ka-tji-ou' },
+                    { person: 'Ils', arabic: 'كَايْجِيُو', phonetic: 'Ka-yji-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'جِيتْ', phonetic: 'Jit' },
+                    { person: 'Tu (m)', arabic: 'جِيتِي', phonetic: 'Jiti' },
+                    { person: 'Tu (f)', arabic: 'جِيتِي', phonetic: 'Jiti' },
+                    { person: 'Il', arabic: 'جَا', phonetic: 'Ja' },
+                    { person: 'Elle', arabic: 'جَاتْ', phonetic: 'Jat' },
+                    { person: 'Nous', arabic: 'جِينَا', phonetic: 'Jina' },
+                    { person: 'Vous', arabic: 'جِيتُومْ', phonetic: 'Jitoum' },
+                    { person: 'Ils', arabic: 'جَاوْ', phonetic: 'Jaou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْجِي', phonetic: 'Ghadi nji' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْجِي', phonetic: 'Ghadi tji' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْجِي', phonetic: 'Ghadi tji' },
+                    { person: 'Il', arabic: 'غَادِي يْجِي', phonetic: 'Ghadi yji' },
+                    { person: 'Elle', arabic: 'غَادِي تْجِي', phonetic: 'Ghadi tji' },
+                    { person: 'Nous', arabic: 'غَادِي نْجِيُو', phonetic: 'Ghadi nji-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْجِيُو', phonetic: 'Ghadi tji-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْجِيُو', phonetic: 'Ghadi yji-ou' }
+                ]
+            },
+            {
+                verb: 'هْضَرْ',
+                infinitive: 'Hder',
+                meaning: 'Parler',
+                present: [
+                    { person: 'Je', arabic: 'كَنْهْضَرْ', phonetic: 'Kan-nehder' },
+                    { person: 'Tu (m)', arabic: 'كَنْهْضَرْ', phonetic: 'Ka-tehder' },
+                    { person: 'Tu (f)', arabic: 'كَنْهْضْرِي', phonetic: 'Ka-tehder-i' },
+                    { person: 'Il', arabic: 'كَايْهْضَرْ', phonetic: 'Ka-yehder' },
+                    { person: 'Elle', arabic: 'كَايْهْضَرْ', phonetic: 'Ka-tehder' },
+                    { person: 'Nous', arabic: 'كَنْهْضْرُو', phonetic: 'Kan-nehder-ou' },
+                    { person: 'Vous', arabic: 'كَنْهْضْرُو', phonetic: 'Ka-tehder-ou' },
+                    { person: 'Ils', arabic: 'كَايْهْضْرُو', phonetic: 'Ka-yehder-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'هْضَرْتْ', phonetic: 'Hdert' },
+                    { person: 'Tu (m)', arabic: 'هْضَرْتِي', phonetic: 'Hderti' },
+                    { person: 'Tu (f)', arabic: 'هْضَرْتِي', phonetic: 'Hderti' },
+                    { person: 'Il', arabic: 'هْضَرْ', phonetic: 'Hder' },
+                    { person: 'Elle', arabic: 'هْضَرَتْ', phonetic: 'Hderat' },
+                    { person: 'Nous', arabic: 'هْضَرْنَا', phonetic: 'Hderna' },
+                    { person: 'Vous', arabic: 'هْضَرْتُومْ', phonetic: 'Hdertoum' },
+                    { person: 'Ils', arabic: 'هْضَرُو', phonetic: 'Hderou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْهْضَرْ', phonetic: 'Ghadi nehder' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْهْضَرْ', phonetic: 'Ghadi tehder' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْهْضْرِي', phonetic: 'Ghadi tehder-i' },
+                    { person: 'Il', arabic: 'غَادِي يْهْضَرْ', phonetic: 'Ghadi yehder' },
+                    { person: 'Elle', arabic: 'غَادِي تْهْضَرْ', phonetic: 'Ghadi tehder' },
+                    { person: 'Nous', arabic: 'غَادِي نْهْضْرُو', phonetic: 'Ghadi nehder-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْهْضْرُو', phonetic: 'Ghadi tehder-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْهْضْرُو', phonetic: 'Ghadi yehder-ou' }
+                ]
+            },
+            {
+                verb: 'عْرَفْ',
+                infinitive: '3ref',
+                meaning: 'Savoir',
+                present: [
+                    { person: 'Je', arabic: 'كَنْعْرَفْ', phonetic: 'Kan-ne3ref' },
+                    { person: 'Tu (m)', arabic: 'كَنْعْرَفْ', phonetic: 'Ka-te3ref' },
+                    { person: 'Tu (f)', arabic: 'كَنْعْرْفِي', phonetic: 'Ka-te3ref-i' },
+                    { person: 'Il', arabic: 'كَايْعْرَفْ', phonetic: 'Ka-ye3ref' },
+                    { person: 'Elle', arabic: 'كَايْعْرَفْ', phonetic: 'Ka-te3ref' },
+                    { person: 'Nous', arabic: 'كَنْعْرْفُو', phonetic: 'Kan-ne3ref-ou' },
+                    { person: 'Vous', arabic: 'كَنْعْرْفُو', phonetic: 'Ka-te3ref-ou' },
+                    { person: 'Ils', arabic: 'كَايْعْرْفُو', phonetic: 'Ka-ye3ref-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'عْرَفْتْ', phonetic: '3reft' },
+                    { person: 'Tu (m)', arabic: 'عْرَفْتِي', phonetic: '3refti' },
+                    { person: 'Tu (f)', arabic: 'عْرَفْتِي', phonetic: '3refti' },
+                    { person: 'Il', arabic: 'عْرَفْ', phonetic: '3ref' },
+                    { person: 'Elle', arabic: 'عْرَفَتْ', phonetic: '3refat' },
+                    { person: 'Nous', arabic: 'عْرَفْنَا', phonetic: '3refna' },
+                    { person: 'Vous', arabic: 'عْرَفْتُومْ', phonetic: '3reftoum' },
+                    { person: 'Ils', arabic: 'عْرَفُو', phonetic: '3refou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْعْرَفْ', phonetic: 'Ghadi ne3ref' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْعْرَفْ', phonetic: 'Ghadi te3ref' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْعْرْفِي', phonetic: 'Ghadi te3ref-i' },
+                    { person: 'Il', arabic: 'غَادِي يْعْرَفْ', phonetic: 'Ghadi ye3ref' },
+                    { person: 'Elle', arabic: 'غَادِي تْعْرَفْ', phonetic: 'Ghadi te3ref' },
+                    { person: 'Nous', arabic: 'غَادِي نْعْرْفُو', phonetic: 'Ghadi ne3ref-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْعْرْفُو', phonetic: 'Ghadi te3ref-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْعْرْفُو', phonetic: 'Ghadi ye3ref-ou' }
+                ]
+            },
+            {
+                verb: 'فْهَمْ',
+                infinitive: 'Fhem',
+                meaning: 'Comprendre',
+                present: [
+                    { person: 'Je', arabic: 'كَنْفْهَمْ', phonetic: 'Kan-nefhem' },
+                    { person: 'Tu (m)', arabic: 'كَنْفْهَمْ', phonetic: 'Ka-tefhem' },
+                    { person: 'Tu (f)', arabic: 'كَنْفْهْمِي', phonetic: 'Ka-tefhem-i' },
+                    { person: 'Il', arabic: 'كَايْفْهَمْ', phonetic: 'Ka-yefhem' },
+                    { person: 'Elle', arabic: 'كَايْفْهَمْ', phonetic: 'Ka-tefhem' },
+                    { person: 'Nous', arabic: 'كَنْفْهْمُو', phonetic: 'Kan-nefhem-ou' },
+                    { person: 'Vous', arabic: 'كَنْفْهْمُو', phonetic: 'Ka-tefhem-ou' },
+                    { person: 'Ils', arabic: 'كَايْفْهْمُو', phonetic: 'Ka-yefhem-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'فْهَمْتْ', phonetic: 'Fhemt' },
+                    { person: 'Tu (m)', arabic: 'فْهَمْتِي', phonetic: 'Fhemti' },
+                    { person: 'Tu (f)', arabic: 'فْهَمْتِي', phonetic: 'Fhemti' },
+                    { person: 'Il', arabic: 'فْهَمْ', phonetic: 'Fhem' },
+                    { person: 'Elle', arabic: 'فْهَمَتْ', phonetic: 'Fhemat' },
+                    { person: 'Nous', arabic: 'فْهَمْنَا', phonetic: 'Fhemna' },
+                    { person: 'Vous', arabic: 'فْهَمْتُومْ', phonetic: 'Fhemtoum' },
+                    { person: 'Ils', arabic: 'فْهَمُو', phonetic: 'Fhemou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْفْهَمْ', phonetic: 'Ghadi nefhem' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْفْهَمْ', phonetic: 'Ghadi tefhem' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْفْهْمِي', phonetic: 'Ghadi tefhem-i' },
+                    { person: 'Il', arabic: 'غَادِي يْفْهَمْ', phonetic: 'Ghadi yefhem' },
+                    { person: 'Elle', arabic: 'غَادِي تْفْهَمْ', phonetic: 'Ghadi tefhem' },
+                    { person: 'Nous', arabic: 'غَادِي نْفْهْمُو', phonetic: 'Ghadi nefhem-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْفْهْمُو', phonetic: 'Ghadi tefhem-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْفْهْمُو', phonetic: 'Ghadi yefhem-ou' }
+                ]
+            },
+            {
+                verb: 'بْغِي',
+                infinitive: 'Bghi',
+                meaning: 'Vouloir',
+                present: [
+                    { person: 'Je', arabic: 'كَنْبْغِي', phonetic: 'Kan-nebghi' },
+                    { person: 'Tu (m)', arabic: 'كَنْبْغِي', phonetic: 'Ka-tebghi' },
+                    { person: 'Tu (f)', arabic: 'كَنْبْغِي', phonetic: 'Ka-tebghi' },
+                    { person: 'Il', arabic: 'كَايْبْغِي', phonetic: 'Ka-yebghi' },
+                    { person: 'Elle', arabic: 'كَايْبْغِي', phonetic: 'Ka-tebghi' },
+                    { person: 'Nous', arabic: 'كَنْبْغِيُو', phonetic: 'Kan-nebghi-ou' },
+                    { person: 'Vous', arabic: 'كَنْبْغِيُو', phonetic: 'Ka-tebghi-ou' },
+                    { person: 'Ils', arabic: 'كَايْبْغِيُو', phonetic: 'Ka-yebghi-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'بْغِيتْ', phonetic: 'Bghit' },
+                    { person: 'Tu (m)', arabic: 'بْغِيتِي', phonetic: 'Bghiti' },
+                    { person: 'Tu (f)', arabic: 'بْغِيتِي', phonetic: 'Bghiti' },
+                    { person: 'Il', arabic: 'بْغَا', phonetic: 'Bgha' },
+                    { person: 'Elle', arabic: 'بْغَاتْ', phonetic: 'Bghat' },
+                    { person: 'Nous', arabic: 'بْغِينَا', phonetic: 'Bghina' },
+                    { person: 'Vous', arabic: 'بْغِيتُومْ', phonetic: 'Bghitoum' },
+                    { person: 'Ils', arabic: 'بْغَاوْ', phonetic: 'Bghaou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْبْغِي', phonetic: 'Ghadi nebghi' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْبْغِي', phonetic: 'Ghadi tebghi' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْبْغِي', phonetic: 'Ghadi tebghi' },
+                    { person: 'Il', arabic: 'غَادِي يْبْغِي', phonetic: 'Ghadi yebghi' },
+                    { person: 'Elle', arabic: 'غَادِي تْبْغِي', phonetic: 'Ghadi tebghi' },
+                    { person: 'Nous', arabic: 'غَادِي نْبْغِيُو', phonetic: 'Ghadi nebghi-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْبْغِيُو', phonetic: 'Ghadi tebghi-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْبْغِيُو', phonetic: 'Ghadi yebghi-ou' }
+                ]
+            },
+            {
+                verb: 'قْدَرْ',
+                infinitive: '9der',
+                meaning: 'Pouvoir',
+                present: [
+                    { person: 'Je', arabic: 'كَنْقْدَرْ', phonetic: 'Kan-ne9der' },
+                    { person: 'Tu (m)', arabic: 'كَنْقْدَرْ', phonetic: 'Ka-te9der' },
+                    { person: 'Tu (f)', arabic: 'كَنْقْدْرِي', phonetic: 'Ka-te9der-i' },
+                    { person: 'Il', arabic: 'كَايْقْدَرْ', phonetic: 'Ka-ye9der' },
+                    { person: 'Elle', arabic: 'كَايْقْدَرْ', phonetic: 'Ka-te9der' },
+                    { person: 'Nous', arabic: 'كَنْقْدْرُو', phonetic: 'Kan-ne9der-ou' },
+                    { person: 'Vous', arabic: 'كَنْقْدْرُو', phonetic: 'Ka-te9der-ou' },
+                    { person: 'Ils', arabic: 'كَايْقْدْرُو', phonetic: 'Ka-ye9der-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'قْدَرْتْ', phonetic: '9dert' },
+                    { person: 'Tu (m)', arabic: 'قْدَرْتِي', phonetic: '9derti' },
+                    { person: 'Tu (f)', arabic: 'قْدَرْتِي', phonetic: '9derti' },
+                    { person: 'Il', arabic: 'قْدَرْ', phonetic: '9der' },
+                    { person: 'Elle', arabic: 'قْدَرَتْ', phonetic: '9derat' },
+                    { person: 'Nous', arabic: 'قْدَرْنَا', phonetic: '9derna' },
+                    { person: 'Vous', arabic: 'قْدَرْتُومْ', phonetic: '9dertoum' },
+                    { person: 'Ils', arabic: 'قْدَرُو', phonetic: '9derou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْقْدَرْ', phonetic: 'Ghadi ne9der' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْقْدَرْ', phonetic: 'Ghadi te9der' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْقْدْرِي', phonetic: 'Ghadi te9der-i' },
+                    { person: 'Il', arabic: 'غَادِي يْقْدَرْ', phonetic: 'Ghadi ye9der' },
+                    { person: 'Elle', arabic: 'غَادِي تْقْدَرْ', phonetic: 'Ghadi te9der' },
+                    { person: 'Nous', arabic: 'غَادِي نْقْدْرُو', phonetic: 'Ghadi ne9der-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْقْدْرُو', phonetic: 'Ghadi te9der-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْقْدْرُو', phonetic: 'Ghadi ye9der-ou' }
+                ]
+            },
+            {
+                verb: 'دِيرْ',
+                infinitive: 'Dir',
+                meaning: 'Faire',
+                present: [
+                    { person: 'Je', arabic: 'كَنْدِيرْ', phonetic: 'Kan-nedir' },
+                    { person: 'Tu (m)', arabic: 'كَنْدِيرْ', phonetic: 'Ka-tedir' },
+                    { person: 'Tu (f)', arabic: 'كَنْدِيرِي', phonetic: 'Ka-tedir-i' },
+                    { person: 'Il', arabic: 'كَايْدِيرْ', phonetic: 'Ka-yedir' },
+                    { person: 'Elle', arabic: 'كَايْدِيرْ', phonetic: 'Ka-tedir' },
+                    { person: 'Nous', arabic: 'كَنْدِيرُو', phonetic: 'Kan-nedir-ou' },
+                    { person: 'Vous', arabic: 'كَنْدِيرُو', phonetic: 'Ka-tedir-ou' },
+                    { person: 'Ils', arabic: 'كَايْدِيرُو', phonetic: 'Ka-yedir-ou' }
+                ],
+                passe: [
+                    { person: 'Je', arabic: 'دِرْتْ', phonetic: 'Dert' },
+                    { person: 'Tu (m)', arabic: 'دِرْتِي', phonetic: 'Derti' },
+                    { person: 'Tu (f)', arabic: 'دِرْتِي', phonetic: 'Derti' },
+                    { person: 'Il', arabic: 'دَارْ', phonetic: 'Dar' },
+                    { person: 'Elle', arabic: 'دَارَتْ', phonetic: 'Darat' },
+                    { person: 'Nous', arabic: 'دِرْنَا', phonetic: 'Derna' },
+                    { person: 'Vous', arabic: 'دِرْتُومْ', phonetic: 'Dertoum' },
+                    { person: 'Ils', arabic: 'دَارُو', phonetic: 'Darou' }
+                ],
+                futur: [
+                    { person: 'Je', arabic: 'غَادِي نْدِيرْ', phonetic: 'Ghadi nedir' },
+                    { person: 'Tu (m)', arabic: 'غَادِي تْدِيرْ', phonetic: 'Ghadi tedir' },
+                    { person: 'Tu (f)', arabic: 'غَادِي تْدِيرِي', phonetic: 'Ghadi tedir-i' },
+                    { person: 'Il', arabic: 'غَادِي يْدِيرْ', phonetic: 'Ghadi yedir' },
+                    { person: 'Elle', arabic: 'غَادِي تْدِيرْ', phonetic: 'Ghadi tedir' },
+                    { person: 'Nous', arabic: 'غَادِي نْدِيرُو', phonetic: 'Ghadi nedir-ou' },
+                    { person: 'Vous', arabic: 'غَادِي تْدِيرُو', phonetic: 'Ghadi tedir-ou' },
+                    { person: 'Ils', arabic: 'غَادِي يْدِيرُو', phonetic: 'Ghadi yedir-ou' }
+                ]
+            }
+        ];
+
+        // ============================================
+        // DONNÉES - GRAMMAIRE (15 RÈGLES ESSENTIELLES)
+        // ============================================
+        const grammarData = [
+            {
+                title: 'La Négation (Ma... Ch)',
+                content: 'En darija, la négation se forme en encadrant le verbe avec <strong>ما</strong> (ma) au début et <strong>ش</strong> (ch) à la fin.',
+                rule: 'ما + verbe + ش = Négation',
+                examples: [
+                    { arabic: 'مَا عْرَفْتُشْ', phonetic: 'Ma 3rftusch', french: 'Je ne sais pas' },
+                    { arabic: 'مَا فَهْمْتُشْ', phonetic: 'Ma fhemtusch', french: 'Je ne comprends pas' },
+                    { arabic: 'مَا كَنْهْدَرْشْ', phonetic: 'Ma kan-hderch', french: 'Je ne parle pas' },
+                    { arabic: 'مَا كَايْنْشْ', phonetic: 'Ma kaynch', french: 'Il n\'y a pas' },
+                    { arabic: 'مَا بْغِيتْشْ', phonetic: 'Ma bghitch', french: 'Je ne veux pas' }
+                ]
+            },
+            {
+                title: 'Les Pronoms Personnels',
+                content: 'Les pronoms sujets en darija sont simples et s\'utilisent devant le verbe ou seuls.',
+                rule: 'Ana, Nta, Nti, Houwa, Hiya, Hna, Ntuma, Huma',
+                examples: [
+                    { arabic: 'أَنَا كَنْهْدَرْ', phonetic: 'Ana kan-hder', french: 'Je parle' },
+                    { arabic: 'نْتَا كَتْهْدَرْ', phonetic: 'Nta ka-tehder', french: 'Tu parles (homme)' },
+                    { arabic: 'نْتِي كَتْهْدْرِي', phonetic: 'Nti ka-tehder-i', french: 'Tu parles (femme)' },
+                    { arabic: 'هُوَا كَايْهْدَرْ', phonetic: 'Houwa ka-yehder', french: 'Il parle' },
+                    { arabic: 'حْنَا كَنْهْدْرُو', phonetic: 'Hna kan-nehder-ou', french: 'Nous parlons' }
+                ]
+            },
+            {
+                title: 'La Possession (Dyal)',
+                content: 'Pour exprimer la possession, on utilise <strong>ديال</strong> (dyal) + pronom suffixe.',
+                rule: 'Dyal + suffixe = À quelqu\'un',
+                examples: [
+                    { arabic: 'هَادَا دْيَالِي', phonetic: 'Hada dyali', french: 'C\'est à moi' },
+                    { arabic: 'هَادَا دْيَالَكْ', phonetic: 'Hada dyalek', french: 'C\'est à toi' },
+                    { arabic: 'هَادَا دْيَالُو', phonetic: 'Hada dyalo', french: 'C\'est à lui' },
+                    { arabic: 'هَادَا دْيَالَهَا', phonetic: 'Hada dyalha', french: 'C\'est à elle' },
+                    { arabic: 'هَادَا دْيَالْنَا', phonetic: 'Hada dyalna', french: 'C\'est à nous' }
+                ]
+            },
+            {
+                title: 'Le Présent Habituel (Ka/Kan)',
+                content: 'Pour exprimer une action habituelle au présent, on utilise la particule <strong>كا</strong> (ka) ou <strong>كن</strong> (kan) devant le verbe.',
+                rule: 'Ka/Kan + verbe conjugué = Présent habituel',
+                examples: [
+                    { arabic: 'كَنْكُلْ', phonetic: 'Kan-kel', french: 'Je mange (habituellement)' },
+                    { arabic: 'كَايْكُلْ', phonetic: 'Ka-ykel', french: 'Il mange (habituellement)' },
+                    { arabic: 'كَنْهْدَرْ', phonetic: 'Kan-hder', french: 'Je parle (habituellement)' },
+                    { arabic: 'كَايْهْدَرْ', phonetic: 'Ka-yehder', french: 'Il parle (habituellement)' }
+                ]
+            },
+            {
+                title: 'Le Futur Proche (Ghadi)',
+                content: 'Pour exprimer le futur, on utilise <strong>غادي</strong> (ghadi) devant le verbe au présent.',
+                rule: 'Ghadi + verbe = Futur',
+                examples: [
+                    { arabic: 'غَادِي نْكُلْ', phonetic: 'Ghadi nkel', french: 'Je vais manger' },
+                    { arabic: 'غَادِي تْمْشِي', phonetic: 'Ghadi tmchi', french: 'Tu vas aller' },
+                    { arabic: 'غَادِي يْجِي', phonetic: 'Ghadi yji', french: 'Il va venir' },
+                    { arabic: 'غَادِي نْهْدَرْ', phonetic: 'Ghadi nehder', french: 'Je vais parler' }
+                ]
+            },
+            {
+                title: 'Le Passé Simple',
+                content: 'Le passé se forme en ajoutant des suffixes spécifiques à la racine du verbe.',
+                rule: 'Racine + suffixes du passé',
+                examples: [
+                    { arabic: 'كَلْتْ', phonetic: 'Kelt', french: 'J\'ai mangé' },
+                    { arabic: 'كَلْتِي', phonetic: 'Kelti', french: 'Tu as mangé' },
+                    { arabic: 'كَلْ', phonetic: 'Kel', french: 'Il a mangé' },
+                    { arabic: 'كَلْنَا', phonetic: 'Kelna', french: 'Nous avons mangé' },
+                    { arabic: 'كَلُو', phonetic: 'Kelou', french: 'Ils ont mangé' }
+                ]
+            },
+            {
+                title: 'Les Questions de Base',
+                content: 'Les mots interrogatifs essentiels pour poser des questions en darija.',
+                rule: 'Chno, Chkoun, Fin, Fu7ach, 3lach, Kifach, Bch7al',
+                examples: [
+                    { arabic: 'شْنُو سْمِيَّتْكَ؟', phonetic: 'Chno smitek?', french: 'Quel est ton nom ?' },
+                    { arabic: 'شْكُونْ هَادَا؟', phonetic: 'Chkoun hada?', french: 'Qui est-ce ?' },
+                    { arabic: 'فِينْ كَايْنْ...؟', phonetic: 'Fin kayen...?', french: 'Où est... ?' },
+                    { arabic: 'بِشْحَالْ هَادَا؟', phonetic: 'Bch7al hada?', french: 'Combien ça ?' },
+                    { arabic: 'عْلَاشْ؟', phonetic: '3lach?', french: 'Pourquoi ?' }
+                ]
+            },
+            {
+                title: 'L\'Impératif (Ordres/Requests)',
+                content: 'Pour donner un ordre ou faire une demande polie, on utilise la forme impérative du verbe.',
+                rule: 'Verbe à l\'impératif (sans pronom)',
+                examples: [
+                    { arabic: 'كُلْ!', phonetic: 'Kel!', french: 'Mange !' },
+                    { arabic: 'شْرَبْ!', phonetic: 'Chreb!', french: 'Bois !' },
+                    { arabic: 'مْشِي!', phonetic: 'Mchi!', french: 'Va !' },
+                    { arabic: 'جِي!', phonetic: 'Jii!', french: 'Viens !' },
+                    { arabic: 'هْدَرْ!', phonetic: 'Hder!', french: 'Parle !' }
+                ]
+            },
+            {
+                title: 'Les Connecteurs Logiques',
+                content: 'Les mots de liaison pour structurer ses phrases et discours.',
+                rule: 'W, Walakin, 7itt, Ila, Donk',
+                examples: [
+                    { arabic: 'أَنَا وَنْتَا', phonetic: 'Ana w nta', french: 'Moi et toi' },
+                    { arabic: 'بْغِيتْ وَلَاكِينْ مَا قْدَرْتُشْ', phonetic: 'Bghit walakin ma 9drtusch', french: 'J\'ai voulu mais je n\'ai pas pu' },
+                    { arabic: 'مَا جِيتْشْ حِيتْ كُنْتْ مْرِيضْ', phonetic: 'Ma jitch 7itt kunt mrid', french: 'Je ne suis pas venu parce que j\'étais malade' },
+                    { arabic: 'إِيلاَ جِيتِي، غَادِي نْفْرَحْ', phonetic: 'Ila jiti, ghadi nfreh', french: 'Si tu viens, je serai content' }
+                ]
+            },
+            {
+                title: 'Les Expressions de Temps',
+                content: 'Les mots essentiels pour parler du temps et se situer dans le temps.',
+                rule: 'Lyoum, Lbare7, Gheda, Daba, B3d',
+                examples: [
+                    { arabic: 'لْيُومْ', phonetic: 'Lyoum', french: 'Aujourd\'hui' },
+                    { arabic: 'لْبَارَحْ', phonetic: 'Lbare7', french: 'Hier' },
+                    { arabic: 'غْدَا', phonetic: 'Gheda', french: 'Demain' },
+                    { arabic: 'دَابَا', phonetic: 'Daba', french: 'Maintenant' },
+                    { arabic: 'بْعَدْ', phonetic: 'B3d', french: 'Après / Plus tard' }
+                ]
+            },
+            {
+                title: 'Les Adjectifs Courants',
+                content: 'Les adjectifs les plus utilisés pour décrire des personnes, objets et situations.',
+                rule: 'Zwin, Kbir, Sghir, Sahl, S3ib',
+                examples: [
+                    { arabic: 'هَادَا زْوِينْ', phonetic: 'Hada zwin', french: 'C\'est beau/bien' },
+                    { arabic: 'دَارْ كْبِيرَةْ', phonetic: 'Dar kbira', french: 'Une grande maison' },
+                    { arabic: 'وْلَدْ صْغِيرْ', phonetic: 'Weld sghir', french: 'Un petit garçon' },
+                    { arabic: 'هَادَا سَاهْلْ', phonetic: 'Hada sahl', french: 'C\'est facile' },
+                    { arabic: 'هَادَا صْعِيبْ', phonetic: 'Hada s3ib', french: 'C\'est difficile' }
+                ]
+            },
+            {
+                title: 'Les Expressions de Politesse',
+                content: 'Les formules de politesse essentielles pour interagir correctement.',
+                rule: '3afak, Chokran, L3afw, Bsa7a, Allah ybarek fik',
+                examples: [
+                    { arabic: 'عْفَاكْ', phonetic: '3afak', french: 'S\'il te plaît' },
+                    { arabic: 'شُكْرَانْ بْزَافْ', phonetic: 'Chokran bzaf', french: 'Merci beaucoup' },
+                    { arabic: 'الْعَفْوْ', phonetic: 'L3afw', french: 'De rien' },
+                    { arabic: 'بِصِّحَّةْ', phonetic: 'Bsa7a', french: 'Bon appétit / Santé' },
+                    { arabic: 'اللهْ يْبَارِكْ فِيكْ', phonetic: 'Allah ybarek fik', french: 'Que Dieu te bénisse' }
+                ]
+            },
+            {
+                title: 'Les Nombres et Quantités',
+                content: 'Comment exprimer les nombres, quantités et prix en darija.',
+                rule: 'Wa7ed, Jouj, Tlata... Bch7al, Kilo, Miya',
+                examples: [
+                    { arabic: 'وَاحِدْ كِيلُو', phonetic: 'Wa7ed kilo', french: 'Un kilo' },
+                    { arabic: 'جُوجْ دْيَالْ...', phonetic: 'Jouj dyal...', french: 'Deux de...' },
+                    { arabic: 'بِشْحَالْ هَادَا؟', phonetic: 'Bch7al hada?', french: 'Combien ça ?' },
+                    { arabic: 'بْخَمْسَةْ دِرْهَمْ', phonetic: 'B-khamsa dirham', french: 'À 5 dirhams' },
+                    { arabic: 'كِيلُو وْنِصْفْ', phonetic: 'Kilo w nss', french: 'Un kilo et demi' }
+                ]
+            },
+            {
+                title: 'Les Verbes d\'État (Être/Avoir)',
+                content: 'En darija, il n\'y a pas de verbe "être" comme en français. On utilise directement l\'adjectif.',
+                rule: 'Pas de verbe être - Adjectif directement',
+                examples: [
+                    { arabic: 'أَنَا مْرِيضْ', phonetic: 'Ana mrid', french: 'Je suis malade' (litt: Je malade)' },
+                    { arabic: 'هُوَا مْعَلِّمْ', phonetic: 'Houwa m3ellem', french: 'Il est professeur' },
+                    { arabic: 'أَنَا جَائِعْ', phonetic: 'Ana ja3', french: 'J\'ai faim' (litt: Je affamé)' },
+                    { arabic: 'عِنْدِي جُوعْ', phonetic: '3endi jou3', french: 'J\'ai faim' (litt: Chez moi faim)' }
+                ]
+            },
+            {
+                title: 'Les Prépositions de Lieu',
+                content: 'Les prépositions essentielles pour se localiser et localiser les objets.',
+                rule: 'F, 3la, Ta7t, 9odam, Wara, 9rib, B3id',
+                examples: [
+                    { arabic: 'فْ الدَّارْ', phonetic: 'F dar', french: 'Dans la maison' },
+                    { arabic: 'عَلَى الطَّاوِلَةْ', phonetic: '3la table', french: 'Sur la table' },
+                    { arabic: 'تَحْتَ السَّرِيرْ', phonetic: 'Ta7t sardari', french: 'Sous le lit' },
+                    { arabic: 'قُدَّامْ الدَّارْ', phonetic: '9odam dar', french: 'Devant la maison' },
+                    { arabic: 'وْرَا الدَّارْ', phonetic: 'Wara dar', french: 'Derrière la maison' }
+                ]
+            }
+        ];
+
+        // ============================================
+        // DONNÉES - DIALOGUES (12 DIALOGUES)
+        // ============================================
+        const dialogues = [
+            {
+                id: 1,
+                title: 'Se croiser dans la rue',
+                situation: 'Tu marches dans la médina, tu croises un voisin que tu connais de vue.',
+                lines: [
+                    { speaker: 'A', arabic: 'السَّلَامْ عَلَيْكُمْ', phonetic: 'Salam 3likoum', french: 'Bonjour (formel)' },
+                    { speaker: 'B', arabic: 'وَعَلَيْكُمُ السَّلَامْ', phonetic: 'Wa 3likoum salam', french: 'Et sur vous la paix' },
+                    { speaker: 'A', arabic: 'كِيفْ دَايِرْ يَاخِي؟', phonetic: 'Kif dayr ya khi?', french: 'Comment ça va mon frère ?' },
+                    { speaker: 'B', arabic: 'لَابَاسْ، الْحَمْدُ لِلَّهْ. وَنْتَا؟', phonetic: 'Labas, lhamdoulillah. Wenta?', french: 'Ça va, Dieu merci. Et toi ?' },
+                    { speaker: 'A', arabic: 'أَنَا بِخَيْرْ، شُكْرَانْ', phonetic: 'Ana bikhir, chokran', french: 'Je vais bien, merci' },
+                    { speaker: 'B', arabic: 'مْعَا السَّلَامَةْ', phonetic: 'Ma3a ssalama', french: 'Au revoir' },
+                    { speaker: 'A', arabic: 'بِسْلَامَةْ', phonetic: 'Bisslama', french: 'À bientôt' }
+                ]
+            },
+            {
+                id: 2,
+                title: 'Première rencontre dans un café',
+                situation: 'Tu es dans un café à Casablanca, quelqu\'un s\'assoit à ta table.',
+                lines: [
+                    { speaker: 'A', arabic: 'السَّلَامْ عَلَيْكُمْ، فِيكَانْ بْلاَصَةْ؟', phonetic: 'Salam 3likoum, fikan blasa?', french: 'Bonjour, il y a de la place ?' },
+                    { speaker: 'B', arabic: 'وَعَلَيْكُمُ السَّلَامْ، أَهْلَاً وَسَهْلَاً، تْفَضَّلْ', phonetic: 'Wa 3likoum salam, ahlan w sahlan, tfaddal', french: 'Bienvenue, je t\'en prie' },
+                    { speaker: 'A', arabic: 'شُكْرَانْ. شْكُونْ سْمِيَّتْكَ؟', phonetic: 'Chokran. Chkoun smitek?', french: 'Merci. Quel est ton nom ?' },
+                    { speaker: 'B', arabic: 'سْمِيَّتِي أَحْمَدْ. وَنْتَا؟', phonetic: 'Smiti Ahmed. Wenta?', french: 'Je m\'appelle Ahmed. Et toi ?' },
+                    { speaker: 'A', arabic: 'أَنَا [نوم]. فُرْصَةْ سَعِيدَةْ',
